@@ -12,7 +12,7 @@
     <main class="mt-0 transition-all duration-200 ease-soft-in-out">
 
       <section class="min-h-screen mb-32">
-        <div class="relative flex items-start pt-12 pb-56 m-4 overflow-hidden bg-center bg-cover min-h-50-screen rounded-xl" style="background-image: url('{{ config.ASSETS_ROOT }}/img/curved-images/curved14.jpg')">
+        <div class="relative flex items-start pt-12 pb-56 m-4 overflow-hidden bg-center bg-cover min-h-50-screen rounded-xl" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/curved14.jpg')">
           <span class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-dark-gray opacity-60"></span>
           <div class="container z-10">
             <div class="flex flex-wrap justify-center -mx-3">
@@ -46,26 +46,34 @@
                   
                   {% if success %}
 
-                    <a href="{{ url_for('authentication_blueprint.login') }}"  
+                    <a href="{% url 'login' %}"  
                        class="inline-block w-full px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">Sign IN</a>
 
                   {% else %}
 
                     <form role="form text-left" method="post" action="">
                     
-                        {{ form.hidden_tag() }}
+                      {% csrf_token %}
 
                       <div class="mb-4">
-                        {{ form.username(placeholder="Username", class="focus:shadow-soft-primary-outline text-size-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow") }}
+                        {{ form.username }}
                       </div>
+                      <span class="text-error">{{ form.username.errors }}</span>
 
                       <div class="mb-4">
-                        {{ form.email(placeholder="Email", class="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow", type="email") }}
+                        {{ form.email }}
                       </div>
+                      <span class="text-error">{{ form.email.errors }}</span>
+                      
+                      <div class="mb-4">
+                        {{ form.password1 }}
+                      </div>
+                      <span class="text-error">{{ form.password1.errors }}</span>
 
                       <div class="mb-4">
-                        {{ form.password(placeholder="Password", class="focus:shadow-soft-primary-outline text-size-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow", type="password") }}
+                        {{ form.password2 }}
                       </div>
+                      <span class="text-error">{{ form.password2.errors }}</span>
 
                       <div class="min-h-6 pl-6.92-em mb-0.5 block">
                         <input id="terms" class="w-4.92-em h-4.92-em ease-soft -ml-6.92-em rounded-1.4 checked:bg-gradient-dark-gray after:text-size-fa-check after:font-awesome after:duration-250 after:ease-soft-in-out duration-250 relative float-left mt-1 cursor-pointer appearance-none border border-solid border-slate-200 bg-white bg-contain bg-center bg-no-repeat align-top transition-all after:absolute after:flex after:h-full after:w-full after:items-center after:justify-center after:text-white after:opacity-0 after:transition-all after:content-['\f00c'] checked:border-0 checked:border-transparent checked:bg-transparent checked:after:opacity-100" type="checkbox" value="" checked />
@@ -78,7 +86,7 @@
                       </div>
                       <p class="mt-4 mb-0 text-center leading-normal text-size-sm">
                         Have an account? 
-                        <a href="{{ url_for('authentication_blueprint.login') }}" class="font-bold text-slate-700">Sign IN</a></p>
+                        <a href="{% url 'login' %}" class="font-bold text-slate-700">Sign IN</a></p>
                     </form>
                   
                   {% endif %}
